@@ -1,3 +1,5 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../models/transaction.dart';
@@ -6,7 +8,8 @@ import 'chart_bar.dart';
 class Chart extends StatelessWidget {
   final List<Transaction> recentTransaction;
 
-  const Chart(this.recentTransaction, {Key? key}) : super(key: key);
+
+  const Chart( this.recentTransaction, {Key? key}) : super(key: key);
 
   List<Map<String, Object>> get groupedTransactions {
     return List.generate(7, (index) {
@@ -22,7 +25,7 @@ class Chart extends StatelessWidget {
         bool sameYear = recentTransaction[i].date.year == weekDay.year;
 
         if (sameDay && sameMonth && sameYear) {
-          totalSum += recentTransaction[i].value;
+          totalSum += recentTransaction[i].kmTotal;
         }
       }
 
@@ -33,23 +36,27 @@ class Chart extends StatelessWidget {
     }).reversed.toList();
   }
 
+
   double get _weekTotalValue {
     return groupedTransactions.fold(0.0, (sum, tr) {
       return sum + (tr['value'] as double);
     });
   }
-
+  double get averageValue {
+    return _weekTotalValue > 0
+        ? _weekTotalValue  / groupedTransactions.length
+        : 0;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const Card(
-          //falta implementar o retorno da media
+        Card(
           elevation: 6,
           margin: EdgeInsets.all(20),
           child: Text(
-            '3,5',
+            '${averageValue.toStringAsFixed(2)}',
             style: TextStyle(
               fontSize: 35,
               color: Colors.black,

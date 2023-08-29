@@ -52,7 +52,7 @@ class TransactionList extends StatelessWidget {
                   padding: const EdgeInsets.all(6),
                   child: FittedBox(
                     child: Text(
-                      '${tr.mediaViagem.toStringAsFixed(2)}',
+                      '${tr.mediaViagem!.toStringAsFixed(2)}',
                       style: const TextStyle(
                         color: Colors.white,
                       ),
